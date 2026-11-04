@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import ThemeSwitcher from "../components/ThemeSwitcher.vue";
+import Header from "../components/Header.astro";
 
 interface Props {
   lang?: "sk" | "en";
@@ -64,24 +64,7 @@ const enUrl = new URL(english, origin).toString();
   </head>
 
   <body>
-    <header class="site-header">
-      <a href={home} class="logo">MICHAL STRENK</a>
-
-      <nav aria-label={lang === "sk" ? "Hlavná navigácia" : "Main navigation"}>
-        <a
-          href={home}
-          hreflang="sk"
-          aria-current={lang === "sk" ? "page" : undefined}>SK</a
-        >
-        <a
-          href={english}
-          hreflang="en"
-          aria-current={lang === "en" ? "page" : undefined}>EN</a
-        >
-      </nav>
-
-      <ThemeSwitcher client:load lang={lang} />
-    </header>
+    <Header lang={lang} />
 
     <slot />
   </body>
