@@ -1,0 +1,108 @@
+
+---
+import '../styles/global.css';
+
+interface Props {
+  lang?: 'sk' | 'en';
+  title?: string;
+  description?: string;
+}
+
+const {
+  lang = 'sk',
+  title = lang === 'sk'
+    ? 'Michal Strenk | Život a odkaz'
+    : 'Michael Strank | Life and Legacy',
+  description = lang === 'sk'
+    ? 'Život a odkaz Michala Strenka, amerického mariňáka so slovenskými koreňmi.'
+    : 'The life and legacy of Michael Strank, a US Marine with Slovak roots.'
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const home = `${base}/`;
+const english = `${base}/en/`;
+
+const canonical = new URL(
+  Astro.url.pathname,
+  Astro.site ?? Astro.url
+).toString();
+
+const origin = Astro.site?.origin ?? Astro.url.origin;
+const skUrl = new URL(home, origin).toString();
+const enUrl = new URL(english, origin).toString();
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="alternate" hreflang="sk" href={skUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={skUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+
+    <meta name="color-scheme" content="light dark" />
+
+    <script is:inline>
+      try {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'light' || saved === 'dark') {
+          document.documentElement.dataset.theme = saved;
+        }
+      } catch {}
+    </script>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <a href={home} class="logo">MICHAL STRENK</a>
+
+      <nav aria-label={lang === 'sk' ? 'Hlavná navigácia' : 'Main navigation'}>
+        <a href={home} hreflang="sk" aria-current={lang === 'sk' ? 'page' : undefined}>SK</a>
+        <a href={english} hreflang="en" aria-current={lang === 'en' ? 'page' : undefined}>EN</a>
+      </nav>
+
+      <label>
+        <span>{lang === 'sk' ? 'Vzhľad' : 'Theme'}</span>
+        <select id="theme-select" aria-label={lang === 'sk' ? 'Farebná téma' : 'Color theme'}>
+          <option value="system">System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </label>
+    </header>
+
+    <slot />
+
+    <script>
+      const select = document.querySelector<HTMLSelectElement>('#theme-select');
+
+      if (select) {
+        const saved = localStorage.getItem('theme');
+        select.value = saved === 'light' || saved === 'dark' ? saved : 'system';
+
+        select.addEventListener('change', () => {
+          const value = select.value;
+
+          if (value === 'system') {
+            localStorage.removeItem('theme');
+            delete document.documentElement.dataset.theme;
+          } else {
+            localStorage.setItem('theme', value);
+            document.documentElement.dataset.theme = value;
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
