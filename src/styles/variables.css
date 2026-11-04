@@ -1,0 +1,36 @@
+
+:root {
+  color-scheme: light dark;
+
+  --bg: #f7f5ee;
+  --text: #1b251d;
+  --surface: #e9e8de;
+  --accent: #75602e;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #111713;
+    --text: #f3f1e8;
+    --surface: #202b22;
+    --accent: #d4bd83;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #111713;
+  --text: #f3f1e8;
+  --surface: #202b22;
+  --accent: #d4bd83;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f7f5ee;
+  --text: #1b251d;
+  --surface: #e9e8de;
+  --accent: #75602e;
+}

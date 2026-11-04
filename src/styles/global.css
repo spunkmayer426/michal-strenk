@@ -1,0 +1,18 @@
+
+@import "tailwindcss";
+@import "./variables.css";
+
+@theme {
+  --font-sans: system-ui, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+html {
+  scroll-behavior: smooth;
+}
