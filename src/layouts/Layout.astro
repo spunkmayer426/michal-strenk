@@ -1,6 +1,6 @@
 ---
-import ThemeSwitcher from "../components/ThemeSwitcher.astro";
 import "../styles/global.css";
+import ThemeSwitcher from "../components/ThemeSwitcher.vue";
 
 interface Props {
   lang?: "sk" | "en";
@@ -80,7 +80,7 @@ const enUrl = new URL(english, origin).toString();
         >
       </nav>
 
-      <ThemeSwitcher lang={lang} />
+      <ThemeSwitcher client:load lang={lang} />
     </header>
 
     <slot />
