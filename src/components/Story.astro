@@ -1,0 +1,90 @@
+---
+import Container from "./Container.astro";
+
+interface Props {
+    lang?: "sk" | "en";
+}
+
+const { lang = "sk" } = Astro.props;
+const isEnglish = lang === "en";
+
+const content = {
+    eyebrow: isEnglish ? "01 / HIS STORY" : "01 / JEHO PRÍBEH",
+    heading: isEnglish
+        ? "More than a moment in history."
+        : "Viac než okamih v dejinách.",
+    paragraph1: isEnglish
+        ? "Michael Strank was born in 1919 in the village of Jarabina, in what is now Slovakia. As a child, he emigrated with his family to the United States, where he would later serve in the United States Marine Corps."
+        : "Michal Strenk sa narodil v roku 1919 v obci Jarabina na území dnešného Slovenska. Ako dieťa sa s rodinou presťahoval do Spojených štátov amerických, kde neskôr slúžil v americkej námornej pechote.",
+    paragraph2: isEnglish
+        ? "On February 23, 1945, he was among the six Marines and Navy personnel who raised the American flag on Mount Suribachi during the Battle of Iwo Jima. The moment became one of the most recognizable photographs of the Second World War."
+        : "Dňa 23. februára 1945 bol jedným zo šiestich príslušníkov amerických ozbrojených síl, ktorí vztýčili americkú vlajku na hore Suribači počas bitky o Iwodžimu. Tento okamih sa stal jednou z najznámejších fotografií druhej svetovej vojny.",
+    dates: isEnglish ? "1919 — 1945" : "1919 — 1945",
+    caption: isEnglish
+        ? "Michael Strank · United States Marine Corps"
+        : "Michal Strenk · Námorná pechota USA",
+};
+---
+
+<section id="story" class="scroll-mt-20 py-24 md:py-32">
+    <Container>
+        <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+            <div class="relative">
+                <div
+                    class="aspect-[4/5] overflow-hidden rounded-sm bg-[var(--surface)]"
+                >
+                    <img
+                        src={`${import.meta.env.BASE_URL}images/strenk-portrait.jpg`}
+                        alt={isEnglish
+                            ? "Portrait of Michael Strank"
+                            : "Portrét Michala Strenka"}
+                        loading="lazy"
+                        decoding="async"
+                        class="h-full w-full object-cover grayscale"
+                    />
+                </div>
+
+                <div
+                    class="mt-4 flex items-center justify-between gap-4 text-xs text-[var(--accent)]"
+                >
+                    <span>{content.caption}</span>
+                    <span>{content.dates}</span>
+                </div>
+            </div>
+
+            <div>
+                <p
+                    class="mb-5 text-xs font-bold uppercase tracking-[0.3em] text-[var(--accent)]"
+                >
+                    {content.eyebrow}
+                </p>
+
+                <h2
+                    class="max-w-xl text-4xl font-semibold leading-tight tracking-tight md:text-5xl lg:text-6xl"
+                >
+                    {content.heading}
+                </h2>
+
+                <div
+                    class="mt-8 space-y-6 text-base leading-8 text-[var(--text)]/80 md:text-lg"
+                >
+                    <p>{content.paragraph1}</p>
+                    <p>{content.paragraph2}</p>
+                </div>
+
+                <div class="mt-10 border-t border-[var(--text)]/15 pt-6">
+                    <p class="text-2xl font-semibold tracking-tight">
+                        {content.dates}
+                    </p>
+                    <p class="mt-2 text-sm text-[var(--accent)]">
+                        {
+                            isEnglish
+                                ? "A legacy that lives on."
+                                : "Odkaz, ktorý pretrváva."
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+    </Container>
+</section>
