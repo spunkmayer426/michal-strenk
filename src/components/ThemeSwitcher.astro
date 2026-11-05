@@ -1,0 +1,69 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+    lang?: "sk" | "en";
+}
+
+const { lang = "sk" } = Astro.props;
+
+const label =
+    lang === "sk"
+        ? "Prepnúť svetlý alebo tmavý režim"
+        : "Toggle light or dark mode";
+---
+
+<button
+    type="button"
+    data-theme-toggle
+    aria-label={label}
+    title={label}
+    class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-[var(--text)] transition-colors hover:bg-[var(--surface)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+>
+    <Icon
+        name="lucide:sun"
+        size={21}
+        class="theme-icon-sun"
+        aria-hidden="true"
+    />
+    <Icon
+        name="lucide:moon"
+        size={21}
+        class="theme-icon-moon"
+        aria-hidden="true"
+    />
+</button>
+
+<style>
+    /* Show the icon for the action available */
+    :global(html[data-theme="dark"]) .theme-icon-moon,
+    :global(html[data-theme="light"]) .theme-icon-sun {
+        display: none;
+    }
+
+    /* Hide both until the theme is initialized */
+    :global(html:not([data-theme])) .theme-icon-sun,
+    :global(html:not([data-theme])) .theme-icon-moon {
+        display: none;
+    }
+</style>
+
+<script>
+    document
+        .querySelectorAll<HTMLButtonElement>("[data-theme-toggle]")
+        .forEach((button) => {
+            button.addEventListener("click", () => {
+                const isDark =
+                    document.documentElement.dataset.theme === "dark";
+                const nextTheme = isDark ? "light" : "dark";
+
+                document.documentElement.dataset.theme = nextTheme;
+
+                try {
+                    localStorage.setItem("theme", nextTheme);
+                } catch {
+                    // Switching still works without storage.
+                }
+            });
+        });
+</script>
