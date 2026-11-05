@@ -1,0 +1,122 @@
+---
+import Container from "./Container.astro";
+
+interface Props {
+    lang?: "sk" | "en";
+}
+
+const { lang = "sk" } = Astro.props;
+const isEnglish = lang === "en";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const home = `${base}/${isEnglish ? "en/" : ""}`;
+
+const content = {
+    name: isEnglish ? "Michael Strank" : "Michal Strenk",
+    subtitle: isEnglish ? "Legacy & Remembrance" : "Odkaz a pamiatka",
+    description: isEnglish
+        ? "Preserving the story of a Marine of Slovak origin whose courage became part of world history."
+        : "Pripomíname príbeh amerického mariňáka slovenského pôvodu, ktorého odvaha sa zapísala do svetových dejín.",
+    navigation: isEnglish ? "Explore" : "Preskúmajte",
+    story: isEnglish ? "Story" : "Príbeh",
+    history: isEnglish ? "History" : "História",
+    legacy: isEnglish ? "Legacy" : "Odkaz",
+    credits: isEnglish ? "Photographs & sources" : "Fotografie a zdroje",
+    creditsText: isEnglish
+        ? "Historical image credits and references will be provided here."
+        : "Tu budú uvedené zdroje a autorské údaje historických fotografií.",
+    disclaimer: isEnglish
+        ? "An independent commemorative project. Not an official website of the United States Marine Corps or the Armed Forces of the Slovak Republic."
+        : "Nezávislý spomienkový projekt. Nejde o oficiálnu stránku americkej námornej pechoty ani Ozbrojených síl Slovenskej republiky.",
+    rights: isEnglish
+        ? "Independent memorial project"
+        : "Nezávislý spomienkový projekt",
+};
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-[var(--text)]/10 bg-[var(--surface)]">
+    <Container class="py-16 md:py-20">
+        <div
+            class="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr] lg:gap-16"
+        >
+            <div class="max-w-md">
+                <a href={home} class="inline-flex flex-col leading-tight">
+                    <span class="text-xl font-bold tracking-wide uppercase">
+                        {content.name}
+                    </span>
+                    <span
+                        class="mt-1 text-[11px] uppercase tracking-[0.2em] text-[var(--accent)]"
+                    >
+                        {content.subtitle}
+                    </span>
+                </a>
+
+                <p class="mt-6 text-sm leading-7 opacity-75">
+                    {content.description}
+                </p>
+            </div>
+
+            <nav aria-label={content.navigation}>
+                <h2
+                    class="text-xs font-bold uppercase tracking-[0.2em] text-[var(--accent)]"
+                >
+                    {content.navigation}
+                </h2>
+
+                <ul class="mt-6 space-y-4 text-sm">
+                    <li>
+                        <a
+                            href={`${home}#story`}
+                            class="transition-colors hover:text-[var(--accent)]"
+                        >
+                            {content.story}
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href={`${home}#history`}
+                            class="transition-colors hover:text-[var(--accent)]"
+                        >
+                            {content.history}
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href={`${home}#legacy`}
+                            class="transition-colors hover:text-[var(--accent)]"
+                        >
+                            {content.legacy}
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div>
+                <h2
+                    class="text-xs font-bold uppercase tracking-[0.2em] text-[var(--accent)]"
+                >
+                    {content.credits}
+                </h2>
+
+                <p class="mt-6 text-sm leading-7 opacity-75">
+                    {content.creditsText}
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-16 border-t border-[var(--text)]/15 pt-8">
+            <p class="max-w-3xl text-xs leading-6 opacity-60">
+                {content.disclaimer}
+            </p>
+
+            <div
+                class="mt-8 flex flex-col gap-3 text-xs opacity-60 sm:flex-row sm:items-center sm:justify-between"
+            >
+                <span>© {year} {content.name}</span>
+                <span>{content.rights}</span>
+            </div>
+        </div>
+    </Container>
+</footer>

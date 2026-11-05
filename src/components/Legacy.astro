@@ -1,0 +1,117 @@
+---
+import Container from "./Container.astro";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+    lang?: "sk" | "en";
+}
+
+const { lang = "sk" } = Astro.props;
+const isEnglish = lang === "en";
+
+const content = {
+    eyebrow: isEnglish ? "03 / LEGACY" : "03 / ODKAZ",
+    title: isEnglish
+        ? "A legacy beyond the photograph."
+        : "Odkaz, ktorý presahuje fotografiu.",
+    intro: isEnglish
+        ? "The flag raising on Iwo Jima became a symbol of determination and sacrifice. Behind the iconic image stood real people, including Michael Strank, whose story connects Slovakia and the United States."
+        : "Vztýčenie vlajky na Iwodžime sa stalo symbolom odhodlania a obety. Za ikonickou fotografiou však stáli skutoční ľudia – medzi nimi aj Michal Strenk, ktorého príbeh spája Slovensko a Spojené štáty.",
+    statement: isEnglish
+        ? "Behind every historical photograph is a human story worth remembering."
+        : "Za každou historickou fotografiou je ľudský príbeh, na ktorý sa oplatí pamätať.",
+    remembranceTitle: isEnglish
+        ? "Remembering his story"
+        : "Spomienka na jeho príbeh",
+    remembranceText: isEnglish
+        ? "Strank is remembered for his service in the United States Marine Corps and his role in one of the defining images of the Second World War. His life remains part of the shared history of Slovakia and the United States."
+        : "Strenk je pripomínaný pre svoju službu v americkej námornej pechote a účasť na jednom z najznámejších záberov druhej svetovej vojny. Jeho život zostáva súčasťou spoločnej histórie Slovenska a Spojených štátov.",
+    battalionTitle: isEnglish
+        ? "A name carried forward"
+        : "Meno, ktoré žije ďalej",
+    battalionText: isEnglish
+        ? "In Slovakia, the 65th Reconnaissance Battalion, part of the 22nd Reconnaissance Regiment, bears the honorary name of Michal Strenk."
+        : "Na Slovensku nesie 65. prieskumný prápor, ktorý je súčasťou 22. prieskumného pluku, čestný názov Prieskumný prápor Michala Strenka.",
+};
+---
+
+<section
+    id="legacy"
+    class="scroll-mt-20 py-24 md:py-32"
+    aria-labelledby="legacy-title"
+>
+    <Container>
+        <div class="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-24">
+            <div>
+                <p
+                    class="mb-5 text-xs font-bold uppercase tracking-[0.3em] text-[var(--accent)]"
+                >
+                    {content.eyebrow}
+                </p>
+
+                <h2
+                    id="legacy-title"
+                    class="max-w-xl text-4xl font-semibold leading-tight tracking-tight md:text-5xl lg:text-6xl"
+                >
+                    {content.title}
+                </h2>
+            </div>
+
+            <div class="flex flex-col justify-center">
+                <p class="max-w-2xl text-lg leading-9 opacity-80 md:text-xl">
+                    {content.intro}
+                </p>
+            </div>
+        </div>
+
+        <div
+            class="my-20 border-y border-[var(--text)]/15 py-14 md:my-24 md:py-20"
+        >
+            <div class="flex max-w-5xl items-start gap-5 md:gap-8">
+                <Icon
+                    name="lucide:quote"
+                    size={36}
+                    class="mt-1 shrink-0 text-[var(--accent)]"
+                    aria-hidden="true"
+                />
+                <p
+                    class="text-2xl font-medium leading-snug tracking-tight md:text-4xl lg:text-5xl"
+                >
+                    {content.statement}
+                </p>
+            </div>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2">
+            <article class="rounded-xl bg-[var(--surface)] p-8 md:p-10">
+                <Icon
+                    name="lucide:book-open"
+                    size={28}
+                    class="text-[var(--accent)]"
+                    aria-hidden="true"
+                />
+                <h3 class="mt-7 text-2xl font-semibold">
+                    {content.remembranceTitle}
+                </h3>
+                <p class="mt-4 leading-8 opacity-75">
+                    {content.remembranceText}
+                </p>
+            </article>
+
+            <article class="rounded-xl bg-[var(--surface)] p-8 md:p-10">
+                <Icon
+                    name="lucide:shield"
+                    size={28}
+                    class="text-[var(--accent)]"
+                    aria-hidden="true"
+                />
+                <h3 class="mt-7 text-2xl font-semibold">
+                    {content.battalionTitle}
+                </h3>
+                <p class="mt-4 leading-8 opacity-75">
+                    {content.battalionText}
+                </p>
+            </article>
+        </div>
+    </Container>
+</section>
