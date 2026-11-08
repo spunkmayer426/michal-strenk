@@ -1,79 +1,14 @@
 ---
 import Container from "./Container.astro";
-import { Icon } from "astro-icon/components";
+import TimelineItem from "./timeline/TimelineItem.astro";
+
+import { timelineContent, timelineEvents, type Lang } from "../data/timeline";
 
 interface Props {
-    lang?: "sk" | "en";
+    lang?: Lang;
 }
 
 const { lang = "sk" } = Astro.props;
-const isEnglish = lang === "en";
-
-const content = {
-    eyebrow: isEnglish ? "02 / TIMELINE" : "02 / ČASOVÁ OS",
-    title: isEnglish ? "A life in moments." : "Život v historických míľnikoch.",
-    subtitle: isEnglish
-        ? "The journey of Michael Strank, from his Slovak roots to the battlefields of the Pacific."
-        : "Životná cesta Michala Strenka, od slovenských koreňov až po bojiská Tichomoria.",
-    imagePlaceholder: isEnglish
-        ? "Historical photograph"
-        : "Historická fotografia",
-};
-
-const events = [
-    {
-        year: "1919",
-        date: isEnglish ? "10 November 1919" : "10. november 1919",
-        title: isEnglish ? "Roots in Slovakia" : "Korene na Slovensku",
-        description: isEnglish
-            ? "Michal Strenk was born in Jarabina, in present-day Slovakia, to Vasil and Marta Strenk. His childhood began in a region where many families faced economic hardship and considered emigration in search of better opportunities."
-            : "Michal Strenk sa narodil v Jarabine na území dnešného Slovenska rodičom Vasiľovi a Marte Strenkovcom. Jeho detstvo sa začalo v regióne, kde mnohé rodiny zápasili s náročnými hospodárskymi podmienkami a odchádzali za lepším životom do zahraničia.",
-        detail: isEnglish
-            ? "His Slovak roots would remain an important part of his story, even though he spent most of his life in America."
-            : "Jeho slovenský pôvod zostal dôležitou súčasťou životného príbehu, hoci väčšinu života prežil v Amerike.",
-        image: "1919.jpg",
-    },
-    {
-        year: "1922",
-        date: isEnglish ? "1922 · Emigration" : "1922 · Vysťahovalectvo",
-        title: isEnglish ? "A new home in America" : "Nový domov v Amerike",
-        description: isEnglish
-            ? "As a young child, Michal arrived in the United States with his mother, joining his father, who had travelled there earlier to find work. The family settled in the Franklin Borough area of Pennsylvania, near Johnstown."
-            : "Ako malé dieťa prišiel Michal so svojou matkou do Spojených štátov, kde sa pripojili k otcovi, ktorý odišiel za prácou už skôr. Rodina sa usadila v oblasti Franklin Borough v Pensylvánii, neďaleko mesta Johnstown.",
-        detail: isEnglish
-            ? "He attended local schools and graduated from high school in 1937. He later spent approximately 18 months in the Civilian Conservation Corps and worked on Pennsylvania roads."
-            : "Navštevoval miestne školy a v roku 1937 ukončil strednú školu. Následne približne 18 mesiacov pôsobil v programe Civilian Conservation Corps a pracoval pri výstavbe a údržbe ciest v Pensylvánii.",
-        image: "1922.jpg",
-    },
-    {
-        year: "1939",
-        date: isEnglish ? "6 October 1939" : "6. október 1939",
-        title: isEnglish ? "The path of a Marine" : "Cesta amerického mariňáka",
-        description: isEnglish
-            ? "Michael Strank enlisted in the United States Marine Corps in Pittsburgh. He completed recruit training at Parris Island, South Carolina, and began a military career that would take him far beyond the United States."
-            : "Michael Strank vstúpil v Pittsburghu do Zboru námornej pechoty USA. Základný výcvik absolvoval na základni Parris Island v Južnej Karolíne a začal vojenskú kariéru, ktorá ho neskôr zaviedla ďaleko za hranice Spojených štátov.",
-        detail: isEnglish
-            ? "He served in Cuba and at American bases, was promoted to sergeant in January 1942, and later served with Marine Raider units in the Pacific, including operations associated with Bougainville."
-            : "Slúžil na Kube aj na amerických základniach. V januári 1942 bol povýšený na seržanta a neskôr pôsobil v jednotkách Marine Raiders v Tichomorí, vrátane operácií spojených s ostrovom Bougainville.",
-        image: "1939.jpg",
-    },
-    {
-        year: "1945",
-        date: isEnglish
-            ? "19 February – 1 March 1945"
-            : "19. február – 1. marec 1945",
-        title: isEnglish
-            ? "Iwo Jima and the final sacrifice"
-            : "Iwodžima a posledná obeta",
-        description: isEnglish
-            ? "On 19 February 1945, Strank landed on Iwo Jima with the 5th Marine Division. Four days later, on 23 February, he participated in the second raising of the American flag on Mount Suribachi. Photographer Joe Rosenthal captured the moment in an image that became famous around the world."
-            : "Dňa 19. februára 1945 sa Strenk vylodil na Iwodžime s 5. divíziou námornej pechoty. O štyri dni neskôr, 23. februára, sa zúčastnil druhého vztýčenia americkej vlajky na hore Suribači. Fotograf Joe Rosenthal zachytil okamih na snímke, ktorá sa preslávila po celom svete.",
-        detail: isEnglish
-            ? "Strank returned to combat after the flag raising. On 1 March 1945, at the age of 25, he was killed by artillery fire while the battle continued. He was later laid to rest at Arlington National Cemetery."
-            : "Po vztýčení vlajky sa Strenk vrátil do boja. Dňa 1. marca 1945 vo veku 25 rokov zahynul pri delostreleckej paľbe, zatiaľ čo boje na ostrove pokračovali. Neskôr bol pochovaný na Arlingtonskom národnom cintoríne.",
-        image: "1945.jpg",
-    },
-];
 ---
 
 <section
@@ -82,82 +17,35 @@ const events = [
     aria-labelledby="timeline-title"
 >
     <Container>
-        <div class="mb-20 max-w-3xl">
+        <!-- Section header -->
+        <header class="mb-20 max-w-3xl">
             <p
                 class="mb-5 text-xs font-bold uppercase tracking-[0.3em] text-[var(--accent)]"
             >
-                {content.eyebrow}
+                {timelineContent.eyebrow[lang]}
             </p>
 
             <h2
                 id="timeline-title"
                 class="text-4xl font-semibold tracking-tight md:text-5xl lg:text-6xl"
             >
-                {content.title}
+                {timelineContent.title[lang]}
             </h2>
 
             <p class="mt-6 text-lg leading-8 opacity-75">
-                {content.subtitle}
+                {timelineContent.subtitle[lang]}
             </p>
-        </div>
+        </header>
 
+        <!-- Timeline events -->
         <ol class="relative ml-2 border-l border-[var(--accent)]/30 md:ml-4">
             {
-                events.map((event, index) => (
-                    <li class="relative pb-20 pl-8 last:pb-0 md:pl-14 lg:pb-28">
-                        <span
-                            class="absolute -left-[7px] top-2 h-[13px] w-[13px] rounded-full border-[3px] border-[var(--surface)] bg-[var(--accent)]"
-                            aria-hidden="true"
-                        />
-
-                        <article class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-                            <div
-                                class:list={[
-                                    "min-w-0",
-                                    index % 2 === 1 && "lg:order-2",
-                                ]}
-                            >
-                                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
-                                    {event.date}
-                                </p>
-
-                                <p class="mt-4 text-6xl font-bold tracking-tight opacity-15 md:text-7xl">
-                                    {event.year}
-                                </p>
-
-                                <h3 class="mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
-                                    {event.title}
-                                </h3>
-
-                                <p class="mt-6 text-base leading-8 opacity-85 md:text-lg">
-                                    {event.description}
-                                </p>
-
-                                <p class="mt-5 text-base leading-8 opacity-70">
-                                    {event.detail}
-                                </p>
-                            </div>
-
-                            <div
-                                class:list={[
-                                    "min-w-0",
-                                    index % 2 === 1 && "lg:order-1",
-                                ]}
-                            >
-                                <div class="aspect-[4/4] overflow-hidden rounded-lg bg-[var(--bg)]">
-                                    <img
-                                        src={`${import.meta.env.BASE_URL}images/timeline/${event.image}`}
-                                        alt={`${event.title} – ${event.year}`}
-                                        loading="lazy"
-                                        decoding="async"
-                                        width="1200"
-                                        height="900"
-                                        class="h-full w-full object-cover grayscale transition-transform duration-500 hover:scale-105"
-                                    />
-                                </div>
-                            </div>
-                        </article>
-                    </li>
+                timelineEvents.map((event, index) => (
+                    <TimelineItem
+                        event={event}
+                        lang={lang}
+                        reversed={index % 2 !== 0}
+                    />
                 ))
             }
         </ol>
